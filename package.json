@@ -10,7 +10,9 @@
     "dev": "electron-vite dev",
     "build": "electron-vite build",
     "typecheck": "tsc --noEmit -p tsconfig.node.json && tsc --noEmit -p tsconfig.web.json",
-    "start": "electron-vite preview"
+    "start": "electron-vite preview",
+    "dist": "npm run build && electron-builder --win --publish=never",
+    "dist:publish": "npm run build && electron-builder --win --publish=always"
   },
   "dependencies": {
     "chokidar": "^4.0.3",
@@ -25,10 +27,33 @@
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
     "electron": "^33.2.1",
+    "electron-builder": "^25.1.8",
     "electron-vite": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.7.2",
     "vite": "^6.0.5"
+  },
+  "build": {
+    "appId": "com.luanpoppe.sddviewer",
+    "productName": "sdd-viewer",
+    "directories": {
+      "output": "dist"
+    },
+    "files": ["out/**/*"],
+    "win": {
+      "target": "nsis",
+      "signAndEditExecutable": false
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": false
+    },
+    "publish": {
+      "provider": "github",
+      "owner": "luanpoppe",
+      "repo": "sdd-viewer"
+    }
   }
 }
