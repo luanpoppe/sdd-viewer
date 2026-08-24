@@ -8,6 +8,13 @@ import { registerLocalFileProtocolHandler, registerPrivilegedScheme } from './lo
 
 registerPrivilegedScheme() // precisa rodar antes de app.whenReady()
 
+// Rede de segurança: um erro inesperado ao ler .sdd/ de algum projeto (arquivo
+// malformado, permissão, etc.) não deve derrubar o app inteiro com o dialog
+// nativo do Electron — só loga e segue.
+process.on('uncaughtException', (error) => {
+  console.error('[sdd-viewer] uncaughtException:', error)
+})
+
 function createWindow(store: WorkspaceStore): BrowserWindow {
   const window = new BrowserWindow({
     width: 1280,

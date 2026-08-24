@@ -56,7 +56,13 @@ export class SddTreeParser {
     const yamlPath = join(reviewDir, '.sdd.yaml')
     if (!existsSync(yamlPath)) return null
 
-    const raw = yaml.load(readFileSync(yamlPath, 'utf-8')) as RawReviewYaml
+    let raw: RawReviewYaml
+    try {
+      raw = yaml.load(readFileSync(yamlPath, 'utf-8')) as RawReviewYaml
+    } catch (error) {
+      console.error(`[sdd-viewer] YAML inválido em ${yamlPath}:`, error)
+      return null
+    }
 
     return {
       slug: raw.slug,
@@ -80,7 +86,14 @@ export class SddTreeParser {
     const yamlPath = join(changeDir, '.sdd.yaml')
     if (!existsSync(yamlPath)) return null
 
-    const raw = yaml.load(readFileSync(yamlPath, 'utf-8')) as RawSddYaml
+    let raw: RawSddYaml
+    try {
+      raw = yaml.load(readFileSync(yamlPath, 'utf-8')) as RawSddYaml
+    } catch (error) {
+      console.error(`[sdd-viewer] YAML inválido em ${yamlPath}:`, error)
+      return null
+    }
+
     const isBugfix = raw.kind === 'bugfix'
 
     const base: ChangeSummary = {
