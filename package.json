@@ -1,6 +1,6 @@
 {
   "name": "sdd-viewer",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Viewer desktop (Electron) para os artefatos do SDD lp:* — projetos, mudanças e artefatos .md/.html com fast refresh.",
   "main": "./out/main/index.js",
   "author": "Luan Poppe",
