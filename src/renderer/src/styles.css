@@ -136,16 +136,38 @@ body {
   color: #fff;
 }
 
-.feature-group {
+.feature-node {
   padding: 2px 0;
 }
 
+.feature-header {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 4px 8px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.feature-header:hover {
+  background: #eef2ff;
+}
+
 .feature-title {
+  flex: 1;
   font-size: 12px;
   font-weight: 600;
   color: #555;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feature-empty {
   padding: 4px 8px;
-  display: block;
+  font-size: 11px;
+  color: #aaa;
+  font-style: italic;
 }
 
 .main {

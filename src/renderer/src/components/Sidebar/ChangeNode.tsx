@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import type { ArtifactRef, ChangeSummary } from '@shared/types'
 import { ArtifactRow } from './ArtifactRow'
+import { FeatureNode } from './FeatureNode'
 
 export function ChangeNode({
   change,
@@ -64,19 +65,12 @@ function FeatureArtifacts({
         />
       )}
       {change.features?.map((feature) => (
-        <li key={feature.slug} className="feature-group">
-          <span className="feature-title">{feature.title}</span>
-          <ul>
-            {feature.artifacts.map((artifact) => (
-              <ArtifactRow
-                key={artifact.label}
-                artifact={artifact}
-                isSelected={isSelected(artifact)}
-                onSelect={onSelectArtifact}
-              />
-            ))}
-          </ul>
-        </li>
+        <FeatureNode
+          key={feature.slug}
+          feature={feature}
+          isSelected={isSelected}
+          onSelectArtifact={onSelectArtifact}
+        />
       ))}
     </>
   )
