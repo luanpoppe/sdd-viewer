@@ -1,6 +1,6 @@
 {
   "name": "sdd-viewer",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Viewer desktop (Electron) para os artefatos do SDD lp:* — projetos, mudanças e artefatos .md/.html com fast refresh.",
   "main": "./out/main/index.js",
   "author": "Luan Poppe",
@@ -22,12 +22,12 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/markdown-it": "^14.1.2",
-    "@types/node": "^22.10.2",
+    "@types/node": "^24.9.0",
     "@types/react": "^19.0.2",
     "@types/react-dom": "^19.0.2",
     "@vitejs/plugin-react": "^4.3.4",
-    "electron": "^33.2.1",
-    "electron-builder": "^25.1.8",
+    "electron": "^44.1.1",
+    "electron-builder": "^26.15.3",
     "electron-vite": "^3.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

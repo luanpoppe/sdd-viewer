@@ -5,11 +5,17 @@ import { ReviewNode } from './ReviewNode'
 export function ChangeTree({
   tree,
   selectedArtifact,
-  onSelectArtifact
+  onSelectArtifact,
+  hasTimeline,
+  selectedTimelineChangeId,
+  onSelectTimeline
 }: {
   tree: ProjectTree
   selectedArtifact: ArtifactRef | null
   onSelectArtifact: (artifact: ArtifactRef) => void
+  hasTimeline: boolean
+  selectedTimelineChangeId: string | null
+  onSelectTimeline: (changeId: string) => void
 }) {
   const active = tree.changes.filter((c) => !c.archived)
   const archived = tree.changes.filter((c) => c.archived)
@@ -24,6 +30,9 @@ export function ChangeTree({
             change={change}
             selectedArtifact={selectedArtifact}
             onSelectArtifact={onSelectArtifact}
+            hasTimeline={hasTimeline}
+            selectedTimelineChangeId={selectedTimelineChangeId}
+            onSelectTimeline={onSelectTimeline}
           />
         ))}
       </ul>
@@ -36,6 +45,9 @@ export function ChangeTree({
             change={change}
             selectedArtifact={selectedArtifact}
             onSelectArtifact={onSelectArtifact}
+            hasTimeline={hasTimeline}
+            selectedTimelineChangeId={selectedTimelineChangeId}
+            onSelectTimeline={onSelectTimeline}
           />
         ))}
       </ul>

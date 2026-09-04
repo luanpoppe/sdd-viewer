@@ -56,3 +56,63 @@ export type OpenArtifact = {
   path: string
   label: string
 }
+
+// --- Histórico vindo do banco do SDD (~/.sdd/sdd.db), gravado pelo MCP local ---
+// Opcional por natureza: quem não usa o MCP não tem banco, e o viewer funciona
+// igual. Por isso `available` em vez de uma lista vazia ambígua.
+
+/** Trecho de código que vale ser lido num arquivo, com a explicação dele. */
+export type CodeHighlight = {
+  label?: string
+  lines?: string
+  language?: string
+  snippet: string
+  explanation?: string
+}
+
+export type ChunkFileEntry = {
+  path: string
+  operation?: string
+  linesAdded?: number
+  linesRemoved?: number
+  does?: string
+  connects?: string
+  reviewNote?: string
+  /** Explicação longa, sem o limite de 1-2 frases do plano de revisão no chat. */
+  detail?: string
+  highlights: CodeHighlight[]
+  reviewOrder: number
+  isTest: boolean
+}
+
+export type TimelineChunk = {
+  chunkId: string
+  featureSlug?: string
+  title?: string
+  status?: string
+  wave?: number
+  startedAt?: string
+  finishedAt?: string
+  summary?: string
+  reasoning?: string
+  fileCount: number
+}
+
+export type TimelineEvent = {
+  at: string
+  kind: string
+  actor?: string
+  summary: string
+  chunkId?: string
+}
+
+export type ChangeTimeline = {
+  changeId: string
+  chunks: TimelineChunk[]
+  events: TimelineEvent[]
+}
+
+export type ProjectTimeline = {
+  available: boolean // false = banco ausente ou projeto nunca registrado nele
+  changes: ChangeTimeline[]
+}

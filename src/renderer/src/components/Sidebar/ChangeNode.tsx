@@ -6,11 +6,17 @@ import { FeatureNode } from './FeatureNode'
 export function ChangeNode({
   change,
   selectedArtifact,
-  onSelectArtifact
+  onSelectArtifact,
+  hasTimeline,
+  selectedTimelineChangeId,
+  onSelectTimeline
 }: {
   change: ChangeSummary
   selectedArtifact: ArtifactRef | null
   onSelectArtifact: (artifact: ArtifactRef) => void
+  hasTimeline: boolean
+  selectedTimelineChangeId: string | null
+  onSelectTimeline: (changeId: string) => void
 }) {
   const [expanded, setExpanded] = useState(false)
 
@@ -28,6 +34,18 @@ export function ChangeNode({
 
       {expanded && (
         <ul className="artifact-list">
+          {/* Só aparece quando existe banco do SDD para este projeto — quem não usa
+              o MCP vê a árvore exatamente como antes. */}
+          {hasTimeline && (
+            <li
+              className={`artifact-row timeline-row ${
+                selectedTimelineChangeId === change.id ? 'active' : ''
+              }`}
+              onClick={() => onSelectTimeline(change.id)}
+            >
+              Timeline (histórico)
+            </li>
+          )}
           {change.kind === 'feature' ? (
             <FeatureArtifacts change={change} isSelected={isSelected} onSelectArtifact={onSelectArtifact} />
           ) : (

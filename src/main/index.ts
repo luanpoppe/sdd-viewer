@@ -3,6 +3,7 @@ import { join } from 'path'
 import { is } from './isDev'
 import { WorkspaceStore } from './workspaceStore'
 import { FileWatcherService } from './fileWatcher'
+import { DbWatcherService } from './dbWatcher'
 import { registerIpcHandlers } from './ipcHandlers'
 import { registerLocalFileProtocolHandler, registerPrivilegedScheme } from './localFileProtocol'
 
@@ -37,7 +38,13 @@ function createWindow(store: WorkspaceStore): BrowserWindow {
   registerIpcHandlers(window, store, watcher)
   for (const workspace of store.list()) watcher.watch(workspace)
 
-  window.on('closed', () => watcher.unwatchAll())
+  const dbWatcher = new DbWatcherService(window.webContents)
+  dbWatcher.start()
+
+  window.on('closed', () => {
+    watcher.unwatchAll()
+    dbWatcher.stop()
+  })
 
   if (is.dev && process.env['ELECTRON_RENDERER_URL']) {
     window.loadURL(process.env['ELECTRON_RENDERER_URL'])
