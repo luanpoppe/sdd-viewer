@@ -6,6 +6,7 @@ import type {
   ChangeTimeline,
   ChunkFileEntry,
   CodeHighlight,
+  EventDetail,
   ProjectTimeline,
   TimelineChunk,
   TimelineEvent
@@ -33,6 +34,7 @@ type EventRow = {
   kind: string
   actor: string | null
   summary: string
+  detail: string | null
   change_id: string | null
   chunk_id: string | null
 }
@@ -182,7 +184,7 @@ export class SddDbReader {
   private static selectEvents(db: DatabaseSync, projectId: number): EventRow[] {
     return db
       .prepare(
-        `SELECT e.at, e.kind, e.actor, e.summary, c.change_id, k.chunk_id
+        `SELECT e.at, e.kind, e.actor, e.summary, e.detail, c.change_id, k.chunk_id
            FROM events e
            LEFT JOIN changes c ON c.id = e.change_pk
            LEFT JOIN chunks k ON k.id = e.chunk_pk
@@ -236,7 +238,24 @@ export class SddDbReader {
       kind: row.kind,
       actor: row.actor ?? undefined,
       summary: row.summary,
-      chunkId: row.chunk_id ?? undefined
+      chunkId: row.chunk_id ?? undefined,
+      detail: SddDbReader.parseDetail(row.detail)
+    }
+  }
+
+  /**
+   * O `detail` é JSON de forma livre gravado pelo agente. Se vier corrompido ou não
+   * for um objeto, é ignorado: o `summary` do evento já basta pra linha da timeline.
+   */
+  private static parseDetail(raw: string | null): EventDetail | undefined {
+    if (!raw) return undefined
+
+    try {
+      const parsed = JSON.parse(raw)
+      const isObject = typeof parsed === 'object' && parsed !== null && !Array.isArray(parsed)
+      return isObject ? (parsed as EventDetail) : undefined
+    } catch {
+      return undefined
     }
   }
 

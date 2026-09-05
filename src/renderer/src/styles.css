@@ -416,10 +416,29 @@ body {
 }
 
 .event-row {
+  padding: 2px 0;
+}
+
+.event-head {
   display: flex;
   gap: 10px;
   font-size: 14px;
   padding: 3px 0;
+}
+
+.event-row.expandable .event-head {
+  cursor: pointer;
+}
+
+.event-row.expandable .event-head:hover {
+  background: #f6f8ff;
+}
+
+.event-caret {
+  color: #888;
+  font-size: 11px;
+  width: 10px;
+  flex-shrink: 0;
 }
 
 .event-stamp {
@@ -532,4 +551,62 @@ body {
   line-height: 1.6;
   color: #444;
   margin: 6px 0 0;
+}
+
+/* --- Payload de evento (decisões do grill, achados, links) --- */
+
+.timeline-empty-chunks {
+  font-size: 14px;
+  color: #888;
+  margin: 4px 0 0;
+}
+
+.event-detail {
+  margin: 6px 0 12px 20px;
+  padding: 10px 14px;
+  border-left: 2px solid #d4d4d8;
+  background: #fafafa;
+  border-radius: 0 4px 4px 0;
+}
+
+.event-detail-row {
+  display: flex;
+  gap: 10px;
+  padding: 3px 0;
+}
+
+.event-detail-key {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+  min-width: 150px;
+  flex-shrink: 0;
+  text-transform: capitalize;
+}
+
+.event-detail-key.group {
+  color: #2563eb;
+  min-width: auto;
+  margin-top: 8px;
+}
+
+.event-detail-value {
+  font-size: 14px;
+  line-height: 1.55;
+  color: #333;
+  margin: 0;
+}
+
+.event-detail-nested {
+  margin: 0;
+}
+
+.event-detail-nested .event-detail {
+  margin: 2px 0 6px;
+  background: #fff;
+}
+
+.event-detail-list {
+  margin: 0;
+  padding-left: 18px;
 }

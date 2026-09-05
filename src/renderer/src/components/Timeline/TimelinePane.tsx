@@ -1,6 +1,6 @@
 import type { ChangeTimeline } from '@shared/types'
 import { ChunkCard } from './ChunkCard'
-import { TimelineFormat } from './format'
+import { EventRow } from './EventRow'
 
 export function TimelinePane({
   workspaceId,
@@ -25,16 +25,22 @@ export function TimelinePane({
       </div>
 
       <div className="content-pane-body timeline-body">
-        <ol className="chunk-list">
-          {change.chunks.map((chunk) => (
-            <ChunkCard
-              key={chunk.chunkId}
-              workspaceId={workspaceId}
-              changeId={change.changeId}
-              chunk={chunk}
-            />
-          ))}
-        </ol>
+        {change.chunks.length > 0 ? (
+          <ol className="chunk-list">
+            {change.chunks.map((chunk) => (
+              <ChunkCard
+                key={chunk.chunkId}
+                workspaceId={workspaceId}
+                changeId={change.changeId}
+                chunk={chunk}
+              />
+            ))}
+          </ol>
+        ) : (
+          <p className="timeline-empty-chunks">
+            Nenhum chunk implementado ainda — esta mudança está antes da fase de código.
+          </p>
+        )}
 
         {change.events.length > 0 && <EventLog change={change} />}
       </div>
@@ -44,8 +50,9 @@ export function TimelinePane({
 
 /**
  * Eventos ficam abaixo dos chunks, não intercalados: são decisões e desvios (modo
- * sequencial/paralelo, onda planejada, divergência do auto-sync, commit) e servem
- * pra entender *por que* a implementação saiu assim, não pra revisar código.
+ * sequencial/paralelo, onda planejada, divergência do auto-sync, commit, decisões de
+ * grill) e servem pra entender *por que* a implementação saiu assim, não pra revisar
+ * código. Os que trazem payload abrem no clique.
  */
 function EventLog({ change }: { change: ChangeTimeline }) {
   return (
@@ -53,11 +60,7 @@ function EventLog({ change }: { change: ChangeTimeline }) {
       <h3>Decisões e desvios</h3>
       <ul>
         {change.events.map((event, index) => (
-          <li key={`${event.at}-${index}`} className="event-row">
-            <span className="event-stamp">{TimelineFormat.stamp(event.at)}</span>
-            <span className="event-kind">{event.kind}</span>
-            <span className="event-summary">{event.summary}</span>
-          </li>
+          <EventRow key={`${event.at}-${index}`} event={event} />
         ))}
       </ul>
     </section>

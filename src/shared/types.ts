@@ -104,7 +104,17 @@ export type TimelineEvent = {
   actor?: string
   summary: string
   chunkId?: string
+  /**
+   * Payload estruturado do evento, como o agente gravou — forma livre e aninhada
+   * (decisões do grill, achados, links). Já vem parseado do JSON do banco.
+   */
+  detail?: EventDetail
 }
+
+/** Valor de payload de evento: escalar, lista ou objeto aninhado. */
+export type EventDetail = { [key: string]: EventDetailValue }
+
+export type EventDetailValue = string | number | boolean | null | EventDetailValue[] | EventDetail
 
 export type ChangeTimeline = {
   changeId: string
